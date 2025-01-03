@@ -3,7 +3,7 @@ import pytesseract
 import requests
 import time
 
-url = "http://<your_phone_ip>:8080/video"  # Replace with your phone's IP
+url = "http://10.9.220.32:8080/video"  # Replace with your phone's IP
 
 def extract_license_plate(frame):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
