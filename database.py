@@ -2,10 +2,10 @@ import mysql.connector
 
 def init_db():
     conn = mysql.connector.connect(
-        host='localhost',  # Change if your MySQL server is on a different host
-        user='root',  # Replace with your MySQL username
-        password='root',  # Replace with your MySQL password
-        database='automated_gate_system'  # Your database name
+        host='localhost',  
+        user='root',  
+        password='root',
+        database='automated_gate_system' 
     )
     c = conn.cursor()
     
