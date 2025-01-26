@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 import mysql.connector
+import subprocess
+import os
 
 app = Flask(__name__)
 
@@ -20,6 +22,24 @@ def init_db():
     
     conn.commit()
     conn.close()
+
+def extract_license_plate(frame):
+    """
+    Extract license plate text using OpenALPR.
+    """
+    # Save the frame as an image
+    frame_path = 'temp_frame.jpg'
+    frame.save(frame_path)
+
+    # Run OpenALPR on the image
+    result = subprocess.run(['alpr', '-c', 'us', frame_path], capture_output=True, text=True)
+
+    # Process OpenALPR output and extract plate number
+    for line in result.stdout.splitlines():
+        if line.startswith(" plate: "):
+            return line.split(': ')[1].strip()
+
+    return None
 
 @app.route('/check_plate', methods=['GET'])
 def check_plate():

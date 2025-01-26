@@ -11,16 +11,17 @@ def extract_license_plate(frame):
     Extract license plate text using OpenALPR.
     """
     # Save the frame as an image
-    cv2.imwrite('temp_frame.jpg', frame)
+    frame_path = 'temp_frame.jpg'
+    cv2.imwrite(frame_path, frame)
 
-    # Call OpenALPR command line tool
-    result = subprocess.run(['alpr', '-c', 'us', 'temp_frame.jpg'], capture_output=True, text=True)
+    # Run OpenALPR on the image
+    result = subprocess.run(['alpr', '-c', 'us', frame_path], capture_output=True, text=True)
 
-    # Parse the result
+    # Process OpenALPR output and extract plate number
     for line in result.stdout.splitlines():
         if line.startswith(" plate: "):
             return line.split(': ')[1].strip()
-    
+
     return None
 
 def check_plate_in_database(plate):
